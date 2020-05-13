@@ -1,8 +1,8 @@
 .docItem {
-
+    cursor: pointer;
 }
 .docItemDisplayed {
-    border-left: 2px solid;
+    border-left: 2px solid white;
 }
 .docItemHidden {
     display: none;

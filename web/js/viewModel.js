@@ -63,6 +63,17 @@ const viewModelBuilder = (() => {
                     changeHandler();
                 },
 
+                moveFocus(step) {
+                    const visibleItemIds = viewItems.filter(item => item.state !== STATE_HIDDEN).map(item => item.id),
+                        focusItemIndex = visibleItemIds.findIndex(id => id === focusedItem.id),
+                        newFocusItemIndex = focusItemIndex + step;
+
+                    if (newFocusItemIndex < 0 || newFocusItemIndex >= visibleItemIds.length) {
+                        return;
+                    }
+                    this.setFocus(visibleItemIds[newFocusItemIndex]);
+                },
+
                 setFocus(id) {
                     if (id === focusedItem.id) {
                         return;

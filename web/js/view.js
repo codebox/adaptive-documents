@@ -29,9 +29,13 @@ const view = (() => {
             document.onkeydown = e => {
                 const code = e.keyCode;
                 if (code === 38) { // Up
+                    viewModel.moveFocus(-1);
+                } else if (code === 39) { // Right
+                    viewModel.expand();
+                } else if (code === 37) { // Left
                     viewModel.collapse();
                 } else if (code === 40) { // Down
-                    viewModel.expand();
+                    viewModel.moveFocus(1);
                 }
             };
             targetEl.innerHTML = '';
