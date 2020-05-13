@@ -8,6 +8,7 @@ const viewModelBuilder = (() => {
     function buildViewItem(item) {
         return {
             id : item.id,
+            text : item.content,
             modelItem : item,
             state : item.expands ? STATE_HIDDEN : STATE_DISPLAYED_NO_FOCUS,
             children : []
@@ -44,7 +45,7 @@ const viewModelBuilder = (() => {
             let changeHandler = () => {};
 
             return {
-                viewItems,
+                items : viewItems,
 
                 expand() {
                     focusedItem.children.forEach(child => child.state = STATE_DISPLAYED_NO_FOCUS);
@@ -52,7 +53,13 @@ const viewModelBuilder = (() => {
                 },
 
                 collapse() {
-                    focusedItem.children.forEach(child => child.state = STATE_HIDDEN);
+                    function collapseChildren(item) {
+                        item.children.forEach(child => {
+                            child.state = STATE_HIDDEN;
+                            collapseChildren(child);
+                        });
+                    }
+                    collapseChildren(focusedItem);
                     changeHandler();
                 },
 
