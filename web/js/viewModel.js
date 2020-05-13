@@ -15,7 +15,9 @@ const viewModelBuilder = (() => {
     }
 
     function setFocusToFirstVisible(viewItems) {
-        viewItems.find(item => item.state === STATE_DISPLAYED_NO_FOCUS).state = STATE_DISPLAYED_WITH_FOCUS;
+        const focusedItem = viewItems.find(item => item.state === STATE_DISPLAYED_NO_FOCUS);
+        focusedItem.state = STATE_DISPLAYED_WITH_FOCUS;
+        return focusedItem;
     }
 
     function addChildren(viewItems) {
@@ -35,20 +37,37 @@ const viewModelBuilder = (() => {
             const viewItems = doc.items.map(buildViewItem);
             viewItems.findById = id => viewItems.find(item => item.id === id);
 
-            setFocusToFirstVisible(viewItems);
+            let focusedItem = setFocusToFirstVisible(viewItems);
             addChildren(viewItems);
             cleanUp(viewItems);
 
+            let changeHandler = () => {};
+
             return {
                 viewItems,
-                expand(id) {
 
+                expand() {
+                    focusedItem.children.forEach(child => child.state = STATE_DISPLAYED_NO_FOCUS);
+                    changeHandler();
                 },
-                collapse(id) {
 
+                collapse() {
+                    focusedItem.children.forEach(child => child.state = STATE_HIDDEN);
+                    changeHandler();
                 },
+
                 setFocus(id) {
+                    const newFocusedItem = viewItems.findById(id);
+                    console.assert(newFocusedItem.state === STATE_DISPLAYED_NO_FOCUS);
 
+                    focusedItem.state = STATE_DISPLAYED_NO_FOCUS;
+                    focusedItem = newFocusedItem;
+                    focusedItem.state = STATE_DISPLAYED_WITH_FOCUS;
+                    changeHandler();
+                },
+
+                onChange(handler) {
+                    changeHandler = handler;
                 }
             };
         }
