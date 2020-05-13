@@ -8,7 +8,9 @@ const viewModelBuilder = (() => {
     function buildViewItem(item) {
         return {
             id : item.id,
-            state : item.expands ? STATE_HIDDEN : STATE_DISPLAYED_NO_FOCUS
+            modelItem : item,
+            state : item.expands ? STATE_HIDDEN : STATE_DISPLAYED_NO_FOCUS,
+            children : []
         };
     }
 
@@ -16,14 +18,38 @@ const viewModelBuilder = (() => {
         viewItems.find(item => item.state === STATE_DISPLAYED_NO_FOCUS).state = STATE_DISPLAYED_WITH_FOCUS;
     }
 
+    function addChildren(viewItems) {
+        viewItems.forEach(item => {
+            if (item.modelItem.expands) {
+                viewItems.findById(item.modelItem.expands).children.push(item.id);
+            }
+        })
+    }
+
+    function cleanUp(viewItems) {
+        viewItems.forEach(item => delete item.modelItem)
+    }
+
     return {
         build(doc) {
             const viewItems = doc.items.map(buildViewItem);
+            viewItems.findById = id => viewItems.find(item => item.id === id);
 
             setFocusToFirstVisible(viewItems);
+            addChildren(viewItems);
+            cleanUp(viewItems);
 
             return {
-                viewItems
+                viewItems,
+                expand(id) {
+
+                },
+                collapse(id) {
+
+                },
+                setFocus(id) {
+
+                }
             };
         }
     }
