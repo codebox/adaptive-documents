@@ -48,13 +48,13 @@ const viewModelBuilder = (() => {
                 items : viewItems,
 
                 expand() {
-                    focusedItem.children.forEach(child => child.state = STATE_DISPLAYED_NO_FOCUS);
+                    focusedItem.children.map(viewItems.findById).forEach(child => child.state = STATE_DISPLAYED_NO_FOCUS);
                     changeHandler();
                 },
 
                 collapse() {
                     function collapseChildren(item) {
-                        item.children.forEach(child => {
+                        item.children.map(viewItems.findById).forEach(child => {
                             child.state = STATE_HIDDEN;
                             collapseChildren(child);
                         });
@@ -64,6 +64,9 @@ const viewModelBuilder = (() => {
                 },
 
                 setFocus(id) {
+                    if (id === focusedItem.id) {
+                        return;
+                    }
                     const newFocusedItem = viewItems.findById(id);
                     console.assert(newFocusedItem.state === STATE_DISPLAYED_NO_FOCUS);
 

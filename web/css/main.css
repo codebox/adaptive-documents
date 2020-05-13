@@ -1,0 +1,12 @@
+.docItem {
+
+}
+.docItemDisplayed {
+    border-left: 2px solid;
+}
+.docItemHidden {
+    display: none;
+}
+.docItemFocus {
+    border-left-color: blue;
+}

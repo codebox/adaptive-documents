@@ -26,6 +26,14 @@ const view = (() => {
 
     return {
         render(viewModel, targetEl) {
+            document.onkeydown = e => {
+                const code = e.keyCode;
+                if (code === 38) { // Up
+                    viewModel.collapse();
+                } else if (code === 40) { // Down
+                    viewModel.expand();
+                }
+            };
             targetEl.innerHTML = '';
             viewModel.items.forEach(item => {
                 const itemEl = document.createElement('div');
@@ -34,7 +42,17 @@ const view = (() => {
 
                 updateElementFromState(itemEl, item.state);
 
+                itemEl.onclick = () => {
+                    viewModel.setFocus(item.id);
+                };
+                item.el = itemEl;
+
                 targetEl.appendChild(itemEl);
+            });
+        },
+        updateStates(viewModel) {
+            viewModel.items.forEach(item => {
+                updateElementFromState(item.el, item.state);
             });
         }
     };
