@@ -8,9 +8,11 @@ const viewModelBuilder = (() => {
     function buildViewItem(item) {
         return {
             id : item.id,
+            parentId : null,
             text : item.content,
             modelItem : item,
             state : item.expands ? STATE_HIDDEN : STATE_DISPLAYED_NO_FOCUS,
+            expanded : false,
             children : []
         };
     }
@@ -22,9 +24,11 @@ const viewModelBuilder = (() => {
     }
 
     function addChildren(viewItems) {
-        viewItems.forEach(item => {
-            if (item.modelItem.expands) {
-                viewItems.findById(item.modelItem.expands).children.push(item.id);
+        viewItems.forEach(viewItem => {
+            if (viewItem.modelItem.expands) {
+                const parentViewItem = viewItems.findById(viewItem.modelItem.expands);
+                parentViewItem.children.push(viewItem.id);
+                viewItem.parentId = parentViewItem.id;
             }
         })
     }
@@ -44,16 +48,20 @@ const viewModelBuilder = (() => {
 
             let changeHandler = () => {};
 
-            return {
+            const viewModel = {
                 items : viewItems,
 
                 expand() {
                     focusedItem.children.map(viewItems.findById).forEach(child => child.state = STATE_DISPLAYED_NO_FOCUS);
+                    if (focusedItem.children.length) {
+                        focusedItem.expanded = true;
+                    }
                     changeHandler();
                 },
 
                 collapse() {
                     function collapseChildren(item) {
+                        item.expanded = false;
                         item.children.map(viewItems.findById).forEach(child => {
                             child.state = STATE_HIDDEN;
                             collapseChildren(child);
@@ -63,15 +71,32 @@ const viewModelBuilder = (() => {
                     changeHandler();
                 },
 
-                moveFocus(step) {
-                    const visibleItemIds = viewItems.filter(item => item.state !== STATE_HIDDEN).map(item => item.id),
-                        focusItemIndex = visibleItemIds.findIndex(id => id === focusedItem.id),
-                        newFocusItemIndex = focusItemIndex + step;
+                moveFocus() {
+                    function moveByIndex(step) {
+                        const visibleItemIds = viewItems.filter(item => item.state !== STATE_HIDDEN).map(item => item.id),
+                            focusItemIndex = visibleItemIds.findIndex(id => id === focusedItem.id),
+                            newFocusItemIndex = focusItemIndex + step;
 
-                    if (newFocusItemIndex < 0 || newFocusItemIndex >= visibleItemIds.length) {
-                        return;
+                        if (newFocusItemIndex < 0 || newFocusItemIndex >= visibleItemIds.length) {
+                            return;
+                        }
+                        viewModel.setFocus(visibleItemIds[newFocusItemIndex]);
                     }
-                    this.setFocus(visibleItemIds[newFocusItemIndex]);
+
+                    return {
+                        toNext() {
+                            moveByIndex(1);
+                        },
+                        toPrevious() {
+                            moveByIndex(-1);
+                        },
+                        toParent() {
+                            const parentId = viewModel.getFocusedItem().parentId;
+                            if (parentId) {
+                                viewModel.setFocus(viewModel.getFocusedItem().parentId);
+                            }
+                        }
+                    };
                 },
 
                 setFocus(id) {
@@ -87,10 +112,23 @@ const viewModelBuilder = (() => {
                     changeHandler();
                 },
 
+                getFocusedItem() {
+                    return focusedItem;
+                },
+
                 onChange(handler) {
                     changeHandler = handler;
                 }
             };
+            return viewModel;
+        },
+        states : {
+            hidden : STATE_HIDDEN,
+            displayed : STATE_DISPLAYED_NO_FOCUS,
+            focused : STATE_DISPLAYED_WITH_FOCUS
+        },
+        movements : {
+
         }
     }
 })();

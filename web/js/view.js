@@ -7,15 +7,15 @@ const view = (() => {
         CSS_CLASS_ITEM_FOCUSED = 'docItemFocus';
 
     function updateElementFromState(el, state){
-        if (state === 'hidden') {
+        if (state === viewModelBuilder.states.hidden) {
             el.classList.add(CSS_CLASS_ITEM_HIDDEN);
             el.classList.remove(CSS_CLASS_ITEM_DISPLAYED, CSS_CLASS_ITEM_FOCUSED);
 
-        } else if (state === 'displayed') {
+        } else if (state === viewModelBuilder.states.displayed) {
             el.classList.add(CSS_CLASS_ITEM_DISPLAYED);
             el.classList.remove(CSS_CLASS_ITEM_HIDDEN, CSS_CLASS_ITEM_FOCUSED);
 
-        } else if (state === 'focused') {
+        } else if (state === viewModelBuilder.states.focused) {
             el.classList.add(CSS_CLASS_ITEM_DISPLAYED, CSS_CLASS_ITEM_FOCUSED);
             el.classList.remove(CSS_CLASS_ITEM_HIDDEN);
 
@@ -28,14 +28,26 @@ const view = (() => {
         render(viewModel, targetEl) {
             document.onkeydown = e => {
                 const code = e.keyCode;
+
                 if (code === 38) { // Up
-                    viewModel.moveFocus(-1);
+                    viewModel.moveFocus().toPrevious();
+
                 } else if (code === 39) { // Right
-                    viewModel.expand();
+                    if (viewModel.getFocusedItem().expanded) {
+                        viewModel.moveFocus().toNext();
+                    } else {
+                        viewModel.expand();
+                    }
+
                 } else if (code === 37) { // Left
-                    viewModel.collapse();
+                    if (viewModel.getFocusedItem().expanded) {
+                        viewModel.collapse();
+                    } else {
+                        viewModel.moveFocus().toParent();
+                    }
+
                 } else if (code === 40) { // Down
-                    viewModel.moveFocus(1);
+                    viewModel.moveFocus().toNext();
                 }
             };
             targetEl.innerHTML = '';
