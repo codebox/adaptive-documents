@@ -6,5 +6,5 @@
     console.log(JSON.stringify(viewModel));
 
     viewModel.onChange(() => view.updateStates(viewModel))
-    view.render(viewModel, document.getElementById('target'));
+    view.render(viewModel);
 })();

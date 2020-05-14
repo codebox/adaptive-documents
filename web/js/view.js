@@ -14,8 +14,23 @@ const view = (() => {
         el.classList.toggle(CSS_CLASS_ITEM_PARENT_FOCUSED, state.parentHasFocus);
     }
 
+    function buildOverlay() {
+        const overlayEl = document.createElement('div');
+        overlayEl.innerHTML = `
+            <div class="content">
+            
+            </div>
+        `;
+
+        overlayEl.classList.add('overlay');
+
+        return overlayEl;
+    }
+
     return {
-        render(viewModel, targetEl) {
+        render(viewModel) {
+            const overlay = buildOverlay();
+
             document.onkeydown = e => {
                 const code = e.keyCode;
 
@@ -40,7 +55,6 @@ const view = (() => {
                     viewModel.moveFocus().toNext();
                 }
             };
-            targetEl.innerHTML = '';
             viewModel.items.forEach(item => {
                 const itemEl = document.createElement('div');
                 itemEl.innerText = item.text;
@@ -58,8 +72,10 @@ const view = (() => {
                 };
                 item.el = itemEl;
 
-                targetEl.appendChild(itemEl);
+                overlay.appendChild(itemEl);
             });
+
+            document.body.appendChild(overlay);
         },
         updateStates(viewModel) {
             viewModel.items.forEach(item => {
