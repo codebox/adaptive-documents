@@ -50,6 +50,11 @@ const view = (() => {
 
                 itemEl.onclick = () => {
                     viewModel.setFocus(item.id);
+                    if (item.state.expanded) {
+                        viewModel.collapse();
+                    } else {
+                        viewModel.expand();
+                    }
                 };
                 item.el = itemEl;
 

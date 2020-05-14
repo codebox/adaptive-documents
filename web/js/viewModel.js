@@ -62,10 +62,18 @@ const viewModelBuilder = (() => {
             }
 
             function expandIfPossible(idToExpand) {
+                function showExpandedDescendants(item) {
+                    item.children.map(findById).forEach(child => {
+                        child.state.visible = true;
+                        if (child.state.expanded) {
+                            showExpandedDescendants(child);
+                        }
+                    });
+                }
                 const itemToExpand = findById(idToExpand);
                 if (itemToExpand.children.length && itemToExpand.state.expanded === false) {
                     itemToExpand.state.expanded = true;
-                    itemToExpand.children.map(findById).forEach(child => child.state.visible = true);
+                    showExpandedDescendants(itemToExpand);
                     sanityCheckStates();
                     return true;
                 }
@@ -176,10 +184,7 @@ const viewModelBuilder = (() => {
                 },
 
                 onChange(handler) {
-                    changeHandler = () => {
-                        console.log(JSON.stringify(viewItems, null, 4))
-                        handler()
-                    };
+                    changeHandler = handler;
                 }
             };
             return viewModel;
