@@ -1,12 +1,16 @@
 .docItem {
     cursor: pointer;
+    padding: 5px;
 }
 .docItemDisplayed {
-    border-left: 2px solid white;
+    border-left: 4px solid white;
 }
 .docItemHidden {
     display: none;
 }
 .docItemFocus {
-    border-left-color: blue;
+    border-left-color: #00a1ff;
+}
+.docItemParentFocus {
+    border-left-color: #00a1ff33;
 }
