@@ -113,3 +113,40 @@
 .overlay .docItem.docItemParentFocus .docItemPre.dotCount1 .docItemStatusDot.dot1 {
     border-color: #4C81D033;
 }
+.overlay  .docItemPost {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.overlay .docItemPost .expandedIcon{
+    border: 1px solid transparent;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+.overlay .docItemPost .expandedIcon .expandedIconHorizontal,
+.overlay .docItemPost .expandedIcon .expandedIconVertical {
+    border: 1px solid transparent;
+}
+.overlay .docItemPost .expandedIcon .expandedIconHorizontal {
+    height: 0;
+    width: 50%;
+    position: absolute;
+    margin-top: -1px;
+    top: 50%;
+}
+.overlay .docItemPost .expandedIcon .expandedIconVertical {
+    width: 0;
+    height: 50%;
+    margin: auto;
+}
+.overlay .docItem.docItemFocus .docItemPost .expandedIcon,
+.overlay .docItem.docItemFocus .docItemPost .expandedIcon div{
+    border-color: #4C81D0ff;
+}
