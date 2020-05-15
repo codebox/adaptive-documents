@@ -37,16 +37,15 @@
 }
 .overlay .statusColumnContainer {
     display: flex;
-    flex: 0 0 60px;
-    justify-content: center;
-    border-right: 1px solid lightgray;
+    flex: 0 0 50px;
+    justify-content: flex-end;
 }
 .overlay .statusColumn {
     width: 8px;
     height: 400px;
     border: 2px solid grey;
     border-radius: 5px;
-    margin-top: 5px;
+    margin: 5px 5px 0 0;
 }
 .overlay .docItems {
     display: flex;
@@ -58,9 +57,10 @@
 }
 .overlay .docItem .docItemPre {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     flex: 0 0 50px;
     justify-content: flex-end;
+    align-items: center;
 }
 .overlay .docItem .docItemContent {
     flex: 1 1 0;
@@ -78,6 +78,7 @@
 .overlay .docItem  .docItemStatusBar {
     border-color: transparent;
     background-color: transparent;
+    margin-left: 4px;
 }
 .overlay .docItem.docItemFocus  .docItemStatusBar {
     border-color: #4C81D0ff;
@@ -86,4 +87,29 @@
 .overlay .docItem.docItemParentFocus  .docItemStatusBar {
     border-color: #4C81D033;
     background-color: #4C81D033;
+}
+.overlay .docItemStatusDot {
+    width:4px;
+    height: 4px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    margin: 1px;
+}
+.overlay .docItem.docItemFocus .docItemPre.dotCount4 .docItemStatusDot,
+.overlay .docItem.docItemFocus .docItemPre.dotCount3 .docItemStatusDot.dot1,
+.overlay .docItem.docItemFocus .docItemPre.dotCount3 .docItemStatusDot.dot2,
+.overlay .docItem.docItemFocus .docItemPre.dotCount3 .docItemStatusDot.dot3,
+.overlay .docItem.docItemFocus .docItemPre.dotCount2 .docItemStatusDot.dot1,
+.overlay .docItem.docItemFocus .docItemPre.dotCount2 .docItemStatusDot.dot2,
+.overlay .docItem.docItemFocus .docItemPre.dotCount1 .docItemStatusDot.dot1 {
+    border-color: #4C81D0ff;
+}
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount4 .docItemStatusDot,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount3 .docItemStatusDot.dot1,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount3 .docItemStatusDot.dot2,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount3 .docItemStatusDot.dot3,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount2 .docItemStatusDot.dot1,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount2 .docItemStatusDot.dot2,
+.overlay .docItem.docItemParentFocus .docItemPre.dotCount1 .docItemStatusDot.dot1 {
+    border-color: #4C81D033;
 }
