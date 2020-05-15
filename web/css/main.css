@@ -43,7 +43,7 @@
 .overlay .statusColumn {
     width: 8px;
     height: 400px;
-    border: 2px solid grey;
+    border: 1px solid grey;
     border-radius: 5px;
     margin: 5px 5px 0 0;
 }
@@ -91,7 +91,7 @@
 .overlay .docItemStatusDot {
     width:4px;
     height: 4px;
-    border-radius: 3px;
+    border-radius: 50%;
     border: 1px solid transparent;
     margin: 1px;
 }
@@ -114,7 +114,7 @@
 .overlay .docItem.docItemParentFocus .docItemPre.dotCount2 .docItemStatusDot.dot1,
 .overlay .docItem.docItemParentFocus .docItemPre.dotCount2 .docItemStatusDot.dot2,
 .overlay .docItem.docItemParentFocus .docItemPre.dotCount1 .docItemStatusDot.dot1 {
-    border-color: #4C81D033;
+    border-color: #4C81D066;
 }
 .overlay  .docItemPost {
     display: flex;
