@@ -1,7 +1,6 @@
 .docItem {
     cursor: pointer;
-    padding: 5px;
-    margin: 3px;
+    margin: 4px 0;
 }
 .docItemDisplayed {
     border-left: 4px solid white;
@@ -9,15 +8,6 @@
 }
 .docItemHidden {
     display: none;
-}
-.docItemFocus {
-    border-left-color: #4C81D0;
-}
-.docItemParentFocus {
-    border-left-color: #4C81D033;
-}
-div {
-    border: 1px solid lightgray;
 }
 .overlay {
     position: fixed;
@@ -44,11 +34,33 @@ div {
     flex-direction: row;
 }
 .overlay .docItem .docItemPre {
+    display: flex;
+    flex-direction: row;
     flex: 0 0 50px;
+    justify-content: flex-end;
 }
 .overlay .docItem .docItemContent {
     flex: 1 1 0;
+    padding-left: 5px;
 }
 .overlay .docItem .docItemPost {
     flex: 0 0 50px;
+}
+.overlay .docItem  .docItemStatusBar {
+    width: 3px;
+    border-radius: 2px;
+    height: 100%;
+    border: 1px solid;
+}
+.overlay .docItem  .docItemStatusBar {
+    border-color: transparent;
+    background-color: transparent;
+}
+.overlay .docItem.docItemFocus  .docItemStatusBar {
+    border-color: #4C81D0ff;
+    background-color: #4C81D0ff;
+}
+.overlay .docItem.docItemParentFocus  .docItemStatusBar {
+    border-color: #4C81D033;
+    background-color: #4C81D033;
 }
