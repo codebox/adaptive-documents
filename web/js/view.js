@@ -14,7 +14,20 @@ const view = (() => {
         el.classList.toggle(CSS_CLASS_ITEM_PARENT_FOCUSED, state.parentHasFocus);
     }
 
+    function addLinksToHeader() {
+        const linkToFont = document.createElement('link');
+        linkToFont.setAttribute('rel', 'stylesheet');
+        linkToFont.setAttribute('href', 'https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Open+Sans');
+        document.head.appendChild(linkToFont);
+
+        const linkToCss = document.createElement('link');
+        linkToFont.setAttribute('rel', 'stylesheet');
+        linkToFont.setAttribute('href', 'css/main.css');
+        document.head.appendChild(linkToCss);
+    }
+
     function buildOverlay() {
+        addLinksToHeader();
         const overlayEl = document.createElement('div');
         overlayEl.innerHTML = `
             <div class="content">
