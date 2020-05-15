@@ -29,14 +29,26 @@ div {
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 2em;
     display: flex;
     flex-direction: row;
+}
+.overlay .statusColumn {
+    flex: 0 0 60px;
 }
 .overlay .docItems {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 .overlay .docItem {
     flex-direction: row;
+}
+.overlay .docItem .docItemPre {
+    flex: 0 0 50px;
+}
+.overlay .docItem .docItemContent {
+    flex: 1 1 0;
+}
+.overlay .docItem .docItemPost {
+    flex: 0 0 50px;
 }
