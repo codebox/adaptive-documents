@@ -95,6 +95,9 @@
     border: 1px solid transparent;
     margin: 1px;
 }
+.overlay .docItem.docItemExpanded .docItemStatusDot{
+    border-color: transparent ! important;
+}
 .overlay .docItem.docItemFocus .docItemPre.dotCount4 .docItemStatusDot,
 .overlay .docItem.docItemFocus .docItemPre.dotCount3 .docItemStatusDot.dot1,
 .overlay .docItem.docItemFocus .docItemPre.dotCount3 .docItemStatusDot.dot2,
