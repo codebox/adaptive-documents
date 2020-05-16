@@ -26,23 +26,32 @@ const view = (() => {
         document.head.appendChild(linkToCss);
     }
 
-    function buildOverlay() {
-        addLinksToHeader();
-        const overlayEl = document.createElement('div');
-        overlayEl.innerHTML = `
-            <div class="content">
-            
-            </div>
-        `;
-
-        overlayEl.classList.add('overlay');
-
-        return overlayEl;
-    }
-
     return {
         render(viewModel) {
-            const overlay = buildOverlay();
+            addLinksToHeader();
+
+            const overlayEl = document.createElement('div');
+            overlayEl.innerHTML = `
+                <div class="overlay">
+                    <div class="contentHead">
+                        <h1></h1>
+                    </div>
+                    <div class="contentBody">
+                        <div class="docItems">
+                        </div>
+                        <div class="statusColumnContainer">
+                            <div class="statusColumn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const titleEl = overlayEl.querySelector('h1'),
+                docItemsEl = overlayEl.querySelector('.docItems'),
+                statusColEl = overlayEl.querySelector('.statusColumn');
+
+            overlayEl.classList.add('overlay');
 
             document.onkeydown = e => {
                 const code = e.keyCode;
@@ -70,7 +79,20 @@ const view = (() => {
             };
             viewModel.items.forEach(item => {
                 const itemEl = document.createElement('div');
-                itemEl.innerText = item.text;
+
+                itemEl.innerHTML = `
+                    <div class="docItemPre dotCount1">
+                        <div class="docItemStatusBar"></div>
+                        <div class="docItemStatusDot dot1"></div>
+                        <div class="docItemStatusDot dot2"></div>
+                        <div class="docItemStatusDot dot3"></div>
+                        <div class="docItemStatusDot dot4"></div>
+                    </div>
+                    <div class="docItemContent">${item.text}</div>
+                    <div class="docItemPost">
+                    </div>
+                `;
+
                 itemEl.classList.add(CSS_CLASS_ITEM);
 
                 updateElementFromState(itemEl, item.state);
@@ -85,10 +107,12 @@ const view = (() => {
                 };
                 item.el = itemEl;
 
-                overlay.appendChild(itemEl);
+                docItemsEl.appendChild(itemEl);
             });
 
-            document.body.appendChild(overlay);
+            titleEl.innerText = 'Title';
+
+            document.body.appendChild(overlayEl);
         },
         updateStates(viewModel) {
             viewModel.items.forEach(item => {
