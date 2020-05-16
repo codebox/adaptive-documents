@@ -24,8 +24,8 @@ const view = (() => {
         document.head.appendChild(linkToFont);
 
         const linkToCss = document.createElement('link');
-        linkToFont.setAttribute('rel', 'stylesheet');
-        linkToFont.setAttribute('href', 'css/main.css');
+        linkToCss.setAttribute('rel', 'stylesheet');
+        linkToCss.setAttribute('href', 'css/main.css');
         document.head.appendChild(linkToCss);
     }
 

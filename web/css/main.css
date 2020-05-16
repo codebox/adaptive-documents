@@ -33,7 +33,7 @@
 .overlay .contentBody {
     display: flex;
     flex-direction: row;
-    font-family: Gentium Book Basic, serif;
+    font-family: "Gentium Book Basic", serif;
 }
 .overlay .statusColumnContainer {
     display: flex;
