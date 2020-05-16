@@ -5,13 +5,16 @@ const view = (() => {
         CSS_CLASS_ITEM_HIDDEN = 'docItemHidden',
         CSS_CLASS_ITEM_DISPLAYED = 'docItemDisplayed',
         CSS_CLASS_ITEM_PARENT_FOCUSED = 'docItemParentFocus',
-        CSS_CLASS_ITEM_FOCUSED = 'docItemFocus';
+        CSS_CLASS_ITEM_FOCUSED = 'docItemFocus',
+        CSS_CLASS_ITEM_EXPANDED = 'docItemExpanded',
+        CSS_CLASS_DOT_COUNT_PREFIX = 'dotCount';
 
     function updateElementFromState(el, state){
         el.classList.toggle(CSS_CLASS_ITEM_HIDDEN, !state.visible);
         el.classList.toggle(CSS_CLASS_ITEM_DISPLAYED, state.visible);
         el.classList.toggle(CSS_CLASS_ITEM_FOCUSED, state.hasFocus);
         el.classList.toggle(CSS_CLASS_ITEM_PARENT_FOCUSED, state.parentHasFocus);
+        el.classList.toggle(CSS_CLASS_ITEM_EXPANDED, state.expanded);
     }
 
     function addLinksToHeader() {
@@ -81,7 +84,7 @@ const view = (() => {
                 const itemEl = document.createElement('div');
 
                 itemEl.innerHTML = `
-                    <div class="docItemPre dotCount1">
+                    <div class="docItemPre">
                         <div class="docItemStatusBar"></div>
                         <div class="docItemStatusDot dot1"></div>
                         <div class="docItemStatusDot dot2"></div>
@@ -94,6 +97,7 @@ const view = (() => {
                 `;
 
                 itemEl.classList.add(CSS_CLASS_ITEM);
+                itemEl.querySelector('.docItemPre').classList.add(CSS_CLASS_DOT_COUNT_PREFIX + Math.min(4, item.children.length));
 
                 updateElementFromState(itemEl, item.state);
 
