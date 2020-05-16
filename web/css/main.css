@@ -38,7 +38,7 @@
 .overlay .statusColumnContainer {
     display: flex;
     flex: 0 0 50px;
-    justify-content: flex-end;
+    justify-content: center;
 }
 .overlay .statusColumn {
     width: 8px;
@@ -61,13 +61,11 @@
     flex: 0 0 50px;
     justify-content: flex-end;
     align-items: center;
+    padding-left: 20px;
 }
 .overlay .docItem .docItemContent {
     flex: 1 1 0;
     padding-left: 5px;
-}
-.overlay .docItem .docItemPost {
-    flex: 0 0 50px;
 }
 .overlay .docItem  .docItemStatusBar {
     width: 3px;
