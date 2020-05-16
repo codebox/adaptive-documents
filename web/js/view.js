@@ -29,6 +29,34 @@ const view = (() => {
         document.head.appendChild(linkToCss);
     }
 
+    const statusCol = (() => {
+        const idToBar = {};
+
+        return {
+            init(viewModel, statusColEl) {
+                const totalCharCount = viewModel.items.reduce((total, item) => total + item.text.length, 0);
+
+                viewModel.items.forEach(item => {
+                    const itemBarEl = document.createElement('div');
+                    itemBarEl.classList.add('statusColBar');
+                    itemBarEl.style.height = (100 * item.text.length / totalCharCount) + '%';
+
+                    idToBar[item.id] = itemBarEl;
+
+                    statusColEl.appendChild(itemBarEl);
+                });
+            },
+            updateStatusColFromState(id, state) {
+                const barEl = idToBar[id];
+                barEl.classList.toggle(CSS_CLASS_ITEM_HIDDEN, !state.visible);
+                barEl.classList.toggle(CSS_CLASS_ITEM_DISPLAYED, state.visible);
+                barEl.classList.toggle(CSS_CLASS_ITEM_FOCUSED, state.hasFocus);
+                barEl.classList.toggle(CSS_CLASS_ITEM_PARENT_FOCUSED, state.parentHasFocus);
+                barEl.classList.toggle(CSS_CLASS_ITEM_EXPANDED, state.expanded);
+            }
+        };
+    })();
+
     return {
         render(viewModel) {
             addLinksToHeader();
@@ -50,10 +78,12 @@ const view = (() => {
                 </div>
             `;
 
+
             const titleEl = overlayEl.querySelector('h1'),
                 docItemsEl = overlayEl.querySelector('.docItems'),
                 statusColEl = overlayEl.querySelector('.statusColumn');
 
+            statusCol.init(viewModel, statusColEl);
             overlayEl.classList.add('overlay');
 
             document.onkeydown = e => {
@@ -99,8 +129,6 @@ const view = (() => {
                 itemEl.classList.add(CSS_CLASS_ITEM);
                 itemEl.querySelector('.docItemPre').classList.add(CSS_CLASS_DOT_COUNT_PREFIX + Math.min(4, item.children.length));
 
-                updateElementFromState(itemEl, item.state);
-
                 itemEl.onclick = () => {
                     viewModel.setFocus(item.id);
                     if (item.state.expanded) {
@@ -114,6 +142,7 @@ const view = (() => {
                 docItemsEl.appendChild(itemEl);
             });
 
+            this.updateStates(viewModel);
             titleEl.innerText = 'Title';
 
             document.body.appendChild(overlayEl);
@@ -121,6 +150,7 @@ const view = (() => {
         updateStates(viewModel) {
             viewModel.items.forEach(item => {
                 updateElementFromState(item.el, item.state);
+                statusCol.updateStatusColFromState(item.id, item.state);
             });
         }
     };
