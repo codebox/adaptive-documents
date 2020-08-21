@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: row;
     font-family: "Gentium Book Basic", serif;
+    overflow-y: scroll;
 }
 .overlay .docItems {
     display: flex;
@@ -139,4 +140,17 @@
 }
 .overlay .statusColumn .statusColBar.docItemParentFocus {
     background-color: #4C81D033;
+}
+
+/* Content Styles */
+.docItem h1, .docItem h2, .docItem h3, .docItem h4, .docItem h5, .docItem h6 {
+    margin: 0;
+    font-family: Open Sans, sans-serif;
+}
+.docItem p {
+    margin: 0;
+}
+.docItem ul {
+    margin: 0;
+    padding-left: 20px;
 }
