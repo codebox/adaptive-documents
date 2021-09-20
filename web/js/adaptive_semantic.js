@@ -3,29 +3,48 @@
     const modelBuilder = (() => {
         "use strict";
 
-        const ATTRIB_PREFIX = 'data-doc',
-            ATTRIB_CONTAINER = `${ATTRIB_PREFIX}-container`,
-            ATTRIB_ITEM = `${ATTRIB_PREFIX}-id`,
-            ATTRIB_PARENT = `${ATTRIB_PREFIX}-link-parent`;
+        const parentElementTypes = ['', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        let nextId = 1;
 
         function findContainers() {
-            return Array.from(document.querySelectorAll(`[${ATTRIB_CONTAINER}]`));
-        }
-
-        function findItems(containerEl) {
-            return Array.from(containerEl.querySelectorAll(`[${ATTRIB_ITEM}]`));
-        }
-
-        function buildItem(itemEl) {
-            return {
-                id : itemEl.getAttribute(ATTRIB_ITEM),
-                parentId : itemEl.getAttribute(ATTRIB_PARENT),
-                content : itemEl.innerText
-            }
+            return Array.from(document.querySelectorAll('body'));
         }
 
         function buildDocument(containerEl) {
-            const items = findItems(containerEl).map(buildItem);
+            function buildItem(el, parentId, level) {
+                return {
+                    id: `id${nextId++}`,
+                    content: el.innerHTML,
+                    parentId,
+                    level
+                };
+            }
+            function buildParent(item, level) {
+                return {item, level};
+            }
+
+            const ancestors = [], items = [];
+
+            Array.from(containerEl.children).forEach(childEl => {
+                const childTagName = childEl.tagName.toLowerCase(),
+                    parentLevel = parentElementTypes.indexOf(childTagName),
+                    isParent = parentLevel >= 0;
+
+                if (isParent) {
+                    while (ancestors.length && parentLevel <= ancestors[ancestors.length - 1].level) {
+                        ancestors.pop();
+                    }
+                }
+
+                const parent = ancestors.length && ancestors[ancestors.length-1],
+                    item = buildItem(childEl, parent && parent.item.id, parent && parent.level);
+
+                items.push(item);
+
+                if (isParent) {
+                    ancestors.push(buildParent(item, parentLevel, childTagName));
+                }
+            });
 
             return {
                 items
@@ -33,14 +52,7 @@
         }
 
         function validateDocument(doc) {
-            const items = doc.items,
-                itemIdSet = items.map(item => item.id).reduce((s,id) => s.add(id), new Set()),
-                allIdsAreUnique = itemIdSet.size === items.length,
-                allLinksAreValid = items.map(item => item.parentId).filter(linkId => linkId).every(linkId => itemIdSet.has(linkId));
-
-            console.log({allIdsAreUnique, allLinksAreValid});
-
-            return allIdsAreUnique && allLinksAreValid;
+            return true;
         }
 
         return {
@@ -177,7 +189,7 @@
                         <div class="docItemStatusDot dot3"></div>
                         <div class="docItemStatusDot dot4"></div>
                     </div>
-                    <div class="docItemContent">${item.text}</div>
+                    <div class="docItemContent docItemLevel${item.level}">${item.text}</div>
                     <div class="docItemPost">
                     </div>
                 `;
@@ -220,6 +232,7 @@
                 id : modelItem.id,
                 parentId : null,
                 text : modelItem.content,
+                level: modelItem.level,
                 modelItem,
                 state : {
                     hasFocus : false,
@@ -408,7 +421,7 @@
 
 
     const model = modelBuilder.build();
-    console.log(JSON.stringify(model));
+    console.log(model);
     const viewModel = viewModelBuilder.build(model.documents[0]);
     console.log(JSON.stringify(viewModel));
 
