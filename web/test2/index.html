@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Adaptive Document Test</title>
+        <link href="css/adaptive.css" rel="stylesheet">
+    </head>
+    <body>
+        <doc-container>
+            <doc-item id="1">
+                <doc-summary>
+                    Summary 1
+                </doc-summary>
+                <doc-content>
+                    Content 1
+                    <doc-example>
+                        an example of the thing
+                    </doc-example>
+                </doc-content>
+            </doc-item>
+            <doc-item id="2">
+                <doc-parents>
+                    <doc-parent>1</doc-parent>
+                </doc-parents>
+                <doc-summary>
+                    Summary 2
+                </doc-summary>
+                <doc-content>
+                    Content 2
+                </doc-content>
+            </doc-item>
+        </doc-container>
+
+        <script src="js/adaptive.js"></script>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+Item can be in 1 of 3 states:
+    unread  [neither summary nor content shown]
+    reading [content only is shown]
+    read    [summary only is shown]
+
+Item
+    State  [unread, reading, read]
+    Title?
+    Summary?
+    Text
+    Parents
+
+HTML -> ModelBuilder -> Model
+Model -> ViewRenderer -> HTML

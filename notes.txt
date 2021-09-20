@@ -1,0 +1,8 @@
+Item
+    Title?
+    Summary?
+    Text
+    Parents
+
+HTML -> ModelBuilder -> Model
+Model -> ViewRenderer -> HTML

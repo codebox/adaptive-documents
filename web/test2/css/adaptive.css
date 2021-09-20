@@ -1,0 +1,27 @@
+doc-container, doc-item {
+    display: block;
+}
+doc-parents, doc-parent {
+    display: none;
+}
+doc-item.unread {
+
+}
+doc-item.unread doc-summary {
+    display: none;
+}
+doc-item.unread doc-content {
+    display: none;
+}
+doc-item doc-summary {
+    display: none;
+}
+doc-item doc-content {
+    display: block;
+}
+doc-item.read doc-summary {
+    display: block;
+}
+doc-item.read doc-content {
+    display: none;
+}
