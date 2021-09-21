@@ -1,3 +1,23 @@
+doc-item {
+    cursor: pointer;
+}
+doc-item {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+doc-item.read {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+doc-item.reading {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid #67A1FF;
+}
+doc-summary, doc-content {
+    padding: 5px;
+    border-radius: 5px;
+}
 doc-container, doc-item, doc-content, doc-summary {
     display: block;
 }
@@ -14,10 +34,13 @@ doc-item.reading doc-summary {
     display: none;
 }
 doc-item.unread {
-    display: inline;
-    padding: 5px;
-    margin: 5px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
     border: 1px solid grey;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-right: 0;
 }
 doc-item.unread doc-content, doc-item.unread doc-summary {
     display: none;

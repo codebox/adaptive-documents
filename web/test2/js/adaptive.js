@@ -9,9 +9,30 @@ function go() {
         CSS_READ = 'read',
         CSS_READING = 'reading',
 
+        KEY_UP = 38,
+        KEY_DOWN = 40,
+
         container = document.querySelector('doc-container'),
         model = buildModel(container);
 
+    function changeSelection(delta) {
+        const currentIndex = model.items.findIndex(item => item.state === STATE_READING),
+            newIndex = currentIndex + delta;
+        if (currentIndex >= 0) {
+            model.items[currentIndex].state = STATE_READ;
+        }
+        if (newIndex >= 0 && newIndex < model.items.length) {
+            model.items[newIndex].state = STATE_READING;
+        }
+    }
+    function keyHandler(code) {
+        if (code === KEY_DOWN) {
+            changeSelection(1);
+        } else if (code === KEY_UP) {
+            changeSelection(-1);
+        }
+        updateView();
+    }
 
     function buildModel(container) {
         function stripText(text) {
@@ -64,6 +85,8 @@ function go() {
             item.element.classList.toggle(CSS_UNREAD, item.state === STATE_UNREAD);
         });
     }
+
+    document.onkeydown = e => keyHandler(e.keyCode);
 
     updateView();
 
