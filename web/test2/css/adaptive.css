@@ -1,5 +1,8 @@
-doc-item {
-    cursor: pointer;
+doc-title {
+    font-size: 2em;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
 }
 doc-item {
     margin-left: 10px;
@@ -13,6 +16,9 @@ doc-item.reading {
     margin-top: 15px;
     margin-bottom: 15px;
     border-left: 5px solid #67A1FF;
+}
+doc-item.reading doc-bullet {
+    cursor: pointer;
 }
 doc-summary, doc-content {
     padding: 5px;
@@ -31,7 +37,7 @@ doc-item.reading doc-content {
     display: block;
 }
 doc-item.reading doc-summary {
-    display: none;
+
 }
 doc-item.unread {
     display: inline-block;
@@ -44,6 +50,21 @@ doc-item.unread {
 }
 doc-item.unread doc-content, doc-item.unread doc-summary {
     display: none;
+}
+doc-bullet::before {
+    content: "• ";
+}
+doc-bullet:focus {
+    background-color: white;
+}
+doc-bullet {
+    margin-right: 10px;
+    border: 1px solid #1944ad;
+    background-color: lightblue;
+    padding: 2px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    line-height: 30px;
 }
 
 /*

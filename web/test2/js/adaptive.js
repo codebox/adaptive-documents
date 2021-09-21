@@ -60,17 +60,19 @@ function go() {
             updateView();
         }
         const items = [...container.querySelectorAll('doc-item')].map(docItem => {
-            const item = {
+            const summaryItems = [...docItem.querySelectorAll('doc-summary doc-bullet')].map(bullet => {
+                return {
+                    text: getContent(bullet),
+                    element: bullet
+                };
+            });
+            return {
                 id: docItem.getAttribute('id'),
-                summary: getContent(docItem.querySelector('doc-summary')),
                 content: getContent(docItem.querySelector('doc-content')),
                 state: STATE_UNREAD,
-                element: docItem
+                element: docItem,
+                summaryItems
             };
-            docItem.onclick = () => {
-                clickHandler(item);
-            };
-            return item;
         });
 
         return {
@@ -83,6 +85,20 @@ function go() {
             item.element.classList.toggle(CSS_READ, item.state === STATE_READ);
             item.element.classList.toggle(CSS_READING, item.state === STATE_READING);
             item.element.classList.toggle(CSS_UNREAD, item.state === STATE_UNREAD);
+
+            const isReading = item.state === STATE_READING;
+            item.summaryItems.forEach(summaryItem => {
+                summaryItem.element.setAttribute('contenteditable', isReading);
+                if (isReading) {
+                    summaryItem.element.onkeypress = e => {
+                        if (e.keyCode === 13) {
+                            summaryItem.element.blur();
+                        }
+                    };
+                } else {
+                    summaryItem.element.onkeypress = () => {};
+                }
+            });
         });
     }
 
