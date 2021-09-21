@@ -1,3 +1,29 @@
+doc-container, doc-item, doc-content, doc-summary {
+    display: block;
+}
+doc-item.read doc-content {
+    display: none;
+}
+doc-item.read doc-summary {
+    display: block;
+}
+doc-item.reading doc-content {
+    display: block;
+}
+doc-item.reading doc-summary {
+    display: none;
+}
+doc-item.unread {
+    display: inline;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid grey;
+}
+doc-item.unread doc-content, doc-item.unread doc-summary {
+    display: none;
+}
+
+/*
 doc-container, doc-item {
     display: block;
 }
@@ -25,3 +51,4 @@ doc-item.read doc-summary {
 doc-item.read doc-content {
     display: none;
 }
+*/
