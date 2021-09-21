@@ -65,12 +65,17 @@ function go() {
                     text: getContent(bullet),
                     element: bullet
                 };
-            });
+            }),
+            contentElement = docItem.querySelector('doc-content'),
+            summaryElement = docItem.querySelector('doc-summary');
+
             return {
                 id: docItem.getAttribute('id'),
-                content: getContent(docItem.querySelector('doc-content')),
+                content: getContent(contentElement),
                 state: STATE_UNREAD,
                 element: docItem,
+                contentElement,
+                summaryElement,
                 summaryItems
             };
         });
@@ -99,11 +104,29 @@ function go() {
                     summaryItem.element.onkeypress = () => {};
                 }
             });
+
         });
     }
 
     document.onkeydown = e => keyHandler(e.keyCode);
+    [...document.querySelectorAll('doc-content')].forEach(contentElement => {
+        contentElement.onmouseup = () => {
+            const currentItem = model.items.find(item => item.state === STATE_READING),
+                selectedText = document.getSelection().toString();
+            if (! selectedText.trim()) {
+                return;
+            }
+            const element = document.createElement('doc-bullet');
 
+            element.innerHTML = selectedText;
+            currentItem.summaryElement.appendChild(element);
+            element.setAttribute('contenteditable', true);
+            currentItem.summaryItems.push({
+                text: selectedText,
+                element
+            });
+        };
+    });
     updateView();
 
 }
